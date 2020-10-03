@@ -11,6 +11,13 @@ echo "                                                   "
 echo "-----Binomica Labs - Small Thoughtful Science -----"
 echo "                                                   "
 
+#Declaring today's date as a variable for final output file 
+
+today=$(date +%m_%d_%Y)
+
+#Bringing in Phaster queries id file for further processing
+#If the queries file is not found, the script will look for individual outputs from previous script
+
 query=./phaster-queries.id
 
 if [ -f "$query" ]; then 
@@ -42,7 +49,12 @@ echo "                                                   "
 
 cat *.stat | tr -s '}' '\n' | awk -F: '{print $3}' | tr -d '"' | sort -rd | head -n1
 
-#Removing all .stat files to declutter the directory
-#Since the .out files are still preserved, backups should be available if necessary
+#Saving concantenated list of phaster query responses as a single file 
+
+grep -i "status" *.stat > "$today"_queries.list
+
+#Removing all the individual .stat query output to tidy up the directory
 
 rm *.stat
+
+
